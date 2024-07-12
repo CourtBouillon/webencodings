@@ -16,7 +16,7 @@ import codecs
 from .labels import LABELS
 
 
-VERSION = '0.6-dev'
+VERSION = __version__ = '0.6-dev'
 
 
 # Some names in Encoding are not valid Python aliases. Remap these.
