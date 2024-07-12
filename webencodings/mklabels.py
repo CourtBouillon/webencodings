@@ -11,10 +11,7 @@
 """
 
 import json
-try:
-    from urllib import urlopen
-except ImportError:
-    from urllib.request import urlopen
+from urllib.request import urlopen
 
 
 def assert_lower(string):
@@ -49,7 +46,7 @@ LABELS = {
         for label in encoding['labels']]
     max_len = max(len(label) for label, name in labels)
     parts.extend(
-        '    %s:%s %s,\n' % (label, ' ' * (max_len - len(label)), name)
+        f'    {label}:{" " * (max_len - len(label))} {name},\n'
         for label, name in labels)
     parts.append('}')
     return ''.join(parts)

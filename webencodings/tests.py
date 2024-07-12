@@ -1,4 +1,3 @@
-# coding: utf-8
 """
 
     webencodings.tests
@@ -10,8 +9,6 @@
     :license: BSD, see LICENSE for details.
 
 """
-
-from __future__ import unicode_literals
 
 from . import (lookup, LABELS, decode, encode, iter_decode, iter_encode,
                IncrementalDecoder, IncrementalEncoder, UTF8)

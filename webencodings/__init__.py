@@ -1,4 +1,3 @@
-# coding: utf-8
 """
 
     webencodings
@@ -11,8 +10,6 @@
     :license: BSD, see LICENSE for details.
 
 """
-
-from __future__ import unicode_literals
 
 import codecs
 
@@ -33,7 +30,7 @@ CACHE = {}
 
 
 def ascii_lower(string):
-    r"""Transform (only) ASCII letters to lower case: A-Z is mapped to a-z.
+    """Transform (only) ASCII letters to lower case: A-Z is mapped to a-z.
 
     :param string: An Unicode string.
     :returns: A new Unicode string.
@@ -48,19 +45,19 @@ def ascii_lower(string):
     which also affect non-ASCII characters,
     sometimes mapping them into the ASCII range:
 
-        >>> keyword = u'Bac\N{KELVIN SIGN}ground'
+        >>> keyword = u'Bac\\N{KELVIN SIGN}ground'
         >>> assert keyword.lower() == u'background'
         >>> assert ascii_lower(keyword) != keyword.lower()
-        >>> assert ascii_lower(keyword) == u'bac\N{KELVIN SIGN}ground'
+        >>> assert ascii_lower(keyword) == u'bac\\N{KELVIN SIGN}ground'
 
     """
     # This turns out to be faster than unicode.translate()
-    return string.encode('utf8').lower().decode('utf8')
+    return string.encode().lower().decode()
 
 
 def lookup(label):
-    """
-    Look for an encoding by its label.
+    """Look for an encoding by its label.
+
     This is the spec’s `get an encoding
     <http://encoding.spec.whatwg.org/#concept-encoding-get>`_ algorithm.
     Supported labels are listed there.
@@ -89,8 +86,7 @@ def lookup(label):
 
 
 def _get_encoding(encoding_or_label):
-    """
-    Accept either an encoding object or label.
+    """Accept either an encoding object or label.
 
     :param encoding: An :class:`Encoding` object or a label string.
     :returns: An :class:`Encoding` object.
@@ -102,13 +98,12 @@ def _get_encoding(encoding_or_label):
 
     encoding = lookup(encoding_or_label)
     if encoding is None:
-        raise LookupError('Unknown encoding label: %r' % encoding_or_label)
+        raise LookupError(f'Unknown encoding label: {encoding_or_label!r}')
     return encoding
 
 
 class Encoding(object):
-    """Reresents a character encoding such as UTF-8,
-    that can be used for decoding or encoding.
+    """A character encoding that can be used for decoding or encoding.
 
     .. attribute:: name
 
@@ -126,7 +121,7 @@ class Encoding(object):
         self.codec_info = codec_info
 
     def __repr__(self):
-        return '<Encoding %s>' % self.name
+        return f'<Encoding {self.name}>'
 
 
 #: The UTF-8 encoding. Should be used for new content and formats.
@@ -137,8 +132,7 @@ _UTF16BE = lookup('utf-16be')
 
 
 def decode(input, fallback_encoding, errors='replace'):
-    """
-    Decode a single string.
+    """Decode a single string.
 
     :param input: A byte string
     :param fallback_encoding:
@@ -170,8 +164,7 @@ def _detect_bom(input):
 
 
 def encode(input, encoding=UTF8, errors='strict'):
-    """
-    Encode a single string.
+    """Encode a single string.
 
     :param input: An Unicode string.
     :param encoding: An :class:`Encoding` object or a label string.
@@ -184,8 +177,7 @@ def encode(input, encoding=UTF8, errors='strict'):
 
 
 def iter_decode(input, fallback_encoding, errors='replace'):
-    """
-    "Pull"-based decoder.
+    """"Pull"-based decoder.
 
     :param input:
         An iterable of byte strings.
@@ -212,8 +204,10 @@ def iter_decode(input, fallback_encoding, errors='replace'):
 
 
 def _iter_decode_generator(input, decoder):
-    """Return a generator that first yields the :obj:`Encoding`,
-    then yields output chukns as Unicode strings.
+    """Return a decode generator.
+
+    It first yields the :obj:`Encoding`, then yields output chunks as Unicode
+    strings.
 
     """
     decode = decoder.decode
@@ -244,8 +238,7 @@ def _iter_decode_generator(input, decoder):
 
 
 def iter_encode(input, encoding=UTF8, errors='strict'):
-    """
-    “Pull”-based encoder.
+    """"Pull"-based encoder.
 
     :param input: An iterable of Unicode strings.
     :param encoding: An :class:`Encoding` object or a label string.
@@ -260,6 +253,7 @@ def iter_encode(input, encoding=UTF8, errors='strict'):
 
 
 def _iter_encode_generator(input, encode):
+    """Return an encode generator."""
     for chunck in input:
         output = encode(chunck)
         if output:
@@ -270,8 +264,7 @@ def _iter_encode_generator(input, encode):
 
 
 class IncrementalDecoder(object):
-    """
-    “Push”-based decoder.
+    """"Push"-based decoder.
 
     :param fallback_encoding:
         An :class:`Encoding` object or a label string.
@@ -321,8 +314,7 @@ class IncrementalDecoder(object):
 
 
 class IncrementalEncoder(object):
-    """
-    “Push”-based encoder.
+    """"Push"-based encoder.
 
     :param encoding: An :class:`Encoding` object or a label string.
     :param errors: Type of error handling. See :func:`codecs.register`.
