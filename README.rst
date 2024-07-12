@@ -1,5 +1,5 @@
-python-webencodings
-===================
+webencodings
+============
 
 This is a Python implementation of the `WHATWG Encoding standard
 <http://encoding.spec.whatwg.org/>`_.
@@ -9,7 +9,7 @@ This is a Python implementation of the `WHATWG Encoding standard
   https://github.com/gsnedders/python-webencodings
 * PyPI releases: http://pypi.python.org/pypi/webencodings
 * License: BSD
-* Python 2.6+ and 3.3+
+* Python 3.8+
 
 In order to be compatible with legacy web content
 when interpreting something like ``Content-Type: text/html; charset=latin1``,
