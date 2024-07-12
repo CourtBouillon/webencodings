@@ -11,8 +11,16 @@
 """
 
 from webencodings import (
-    lookup, LABELS, decode, encode, iter_decode, iter_encode, IncrementalDecoder,
-    IncrementalEncoder, UTF8)
+    LABELS,
+    UTF8,
+    IncrementalDecoder,
+    IncrementalEncoder,
+    decode,
+    encode,
+    iter_decode,
+    iter_encode,
+    lookup,
+)
 
 
 def assert_raises(exception, function, *args, **kwargs):
@@ -77,10 +85,13 @@ def test_decode():
     assert decode(b'\xc3\xa9', 'utf8') == ('é', lookup('utf8'))
     assert decode(b'\xc3\xa9', UTF8) == ('é', lookup('utf8'))
     assert decode(b'\xc3\xa9', 'ascii') == ('Ã©', lookup('ascii'))
-    assert decode(b'\xEF\xBB\xBF\xc3\xa9', 'ascii') == ('é', lookup('utf8'))  # UTF-8 with BOM
+    # UTF-8 with BOM
+    assert decode(b'\xEF\xBB\xBF\xc3\xa9', 'ascii') == ('é', lookup('utf8'))
 
-    assert decode(b'\xFE\xFF\x00\xe9', 'ascii') == ('é', lookup('utf-16be'))  # UTF-16-BE with BOM
-    assert decode(b'\xFF\xFE\xe9\x00', 'ascii') == ('é', lookup('utf-16le'))  # UTF-16-LE with BOM
+    # UTF-16-BE with BOM
+    assert decode(b'\xFE\xFF\x00\xe9', 'ascii') == ('é', lookup('utf-16be'))
+    # UTF-16-LE with BOM
+    assert decode(b'\xFF\xFE\xe9\x00', 'ascii') == ('é', lookup('utf-16le'))
     assert decode(b'\xFE\xFF\xe9\x00', 'ascii') == ('\ue900', lookup('utf-16be'))
     assert decode(b'\xFF\xFE\x00\xe9', 'ascii') == ('\ue900', lookup('utf-16le'))
 
