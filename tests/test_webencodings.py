@@ -185,3 +185,10 @@ def test_x_user_defined():
     decoded = 'aa'
     assert decode(encoded, 'x-user-defined') == (decoded, lookup('x-user-defined'))
     assert encode(decoded, 'x-user-defined') == encoded
+
+
+def test_replacement():
+    assert decode(b'', 'replacement') == ('', lookup('replacement'))
+    assert encode('', 'replacement') == b''
+    assert_raises(UnicodeDecodeError, decode, b'abc', 'replacement', 'strict')
+    assert_raises(UnicodeEncodeError, encode, 'abc', 'replacement')

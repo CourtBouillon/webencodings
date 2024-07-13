@@ -40,7 +40,7 @@ LABELS = {
 ''']
     labels = [
         (repr(assert_lower(label)).lstrip('u'),
-         repr(encoding['name']).lstrip('u'))
+         repr(encoding['name'].lower()).lstrip('u'))
         for category in json.loads(urlopen(url).read().decode('ascii'))
         for encoding in category['encodings']
         for label in encoding['labels']]

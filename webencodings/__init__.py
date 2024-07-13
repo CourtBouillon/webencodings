@@ -13,6 +13,7 @@
 
 import codecs
 
+from .custom import replacement_codec_info, user_codec_info
 from .labels import LABELS
 
 VERSION = __version__ = '0.6-dev'
@@ -80,7 +81,9 @@ def lookup(label):
     encoding = CACHE.get(name)
     if encoding is None:
         if name == 'x-user-defined':
-            from .x_user_defined import codec_info
+            codec_info = user_codec_info
+        elif name == 'replacement':
+            codec_info = replacement_codec_info
         else:
             python_name = PYTHON_NAMES.get(name, name)
             # Any python_name value that gets to here should be valid.
