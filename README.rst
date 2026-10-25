@@ -13,7 +13,7 @@ This module has encoding labels and BOM detection, but the actual implementation
 encoders and decoders is Python’s.
 
 * Free software: BSD license
-* For Python 3.10+, tested on CPython and PyPy
+* For Python 3.11+, tested on CPython and PyPy
 * Documentation: https://doc.courtbouillon.org/webencodings
 * Changelog: https://github.com/CourtBouillon/webencodings/releases
 * Code, issues, tests: https://github.com/CourtBouillon/webencodings
